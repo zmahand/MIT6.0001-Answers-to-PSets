@@ -15,31 +15,31 @@ steps = 0
 
 while True:
     # Reset variables
+    portion_saved = (high + low) / 2
     annual_salary = starting_salary
-    monthly_salary = annual_salary / 12
     current_savings = 0
 
     # Accumulate savings for 36 months
-    for month in range(num_of_months):
+    for month in range(0, num_of_months):
+        monthly_salary = annual_salary / 12
         current_savings += (monthly_salary * (portion_saved/1000)) + (current_savings * r)
         months += 1
         if months % 6 == 0:
             annual_salary += annual_salary * semi_annual_raise
-            monthly_salary = annual_salary / 12
-    steps += 1
-    prev_portion_saved = portion_saved
+
     if abs(current_savings - down_payment) <= epsilon:
         print(f"Best savings rate: {round(portion_saved/1000, 4)}")
         print(f"Steps in bisection search: {steps}")
         break
 
-    else:
-        # Update portion_saved for next loop
-        if current_savings < down_payment:
-            low = portion_saved
-        elif current_savings > down_payment:
-            high = portion_saved
-        portion_saved = (high + low) / 2
-        if portion_saved == prev_portion_saved:
-            print("It is not possible to pay the down payment in three years.")
-            break
+    elif abs(current_savings - down_payment) > epsilon and current_savings > down_payment:
+        high = portion_saved
+
+    elif abs(current_savings - down_payment) > epsilon and current_savings < down_payment:
+        low = portion_saved
+
+    if low == high:
+        print('It is not possible to pay the down payment in three years.')
+        break
+
+    steps = steps + 1
