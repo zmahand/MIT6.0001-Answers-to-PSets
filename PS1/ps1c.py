@@ -22,13 +22,13 @@ while True:
     # Accumulate savings for 36 months
     for month in range(0, num_of_months):
         monthly_salary = annual_salary / 12
-        current_savings += (monthly_salary * (portion_saved/1000)) + (current_savings * r)
+        current_savings += (monthly_salary * (portion_saved/10000)) + (current_savings * r)
         months += 1
         if months % 6 == 0:
             annual_salary += annual_salary * semi_annual_raise
 
     if abs(current_savings - down_payment) <= epsilon:
-        print(f"Best savings rate: {round(portion_saved/1000, 4)}")
+        print(f"Best savings rate: {round(portion_saved/10000, 4)}")
         print(f"Steps in bisection search: {steps}")
         break
 
