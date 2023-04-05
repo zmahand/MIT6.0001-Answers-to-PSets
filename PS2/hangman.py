@@ -168,7 +168,8 @@ def hangman(secret_word):
                     guesses_remaining -= 1
                     if guesses_remaining == 0:
                         break
-                    print(f"Oops! You've already guessed that letter. You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed)}")
+                    print(
+                        f"Oops! You've already guessed that letter. You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed)}")
 
             else:
                 # Check if guessed letter is in secret word.
@@ -212,8 +213,15 @@ def match_with_gaps(my_word, other_word):
         _ , and my_word and other_word are of the same length;
         False otherwise:
     """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    my_word = my_word.replace(" ", "").strip()
+    if len(my_word) != len(other_word):
+        return False
+    for index, char in enumerate(my_word):
+        if my_word[index] == other_word[index]:
+            continue
+        else:
+            return False
+    return True
 
 
 def show_possible_matches(my_word):
@@ -226,8 +234,12 @@ def show_possible_matches(my_word):
              that has already been revealed.
 
     """
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    pass
+    match_list = []
+    for word in wordlist:
+        if match_with_gaps(my_word, word):
+            match_list.append(word)
+    match_list = " ".join(match_list)
+    print(match_list)
 
 
 def hangman_with_hints(secret_word):
