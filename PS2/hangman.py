@@ -140,7 +140,10 @@ def hangman(secret_word):
 
     while not is_word_guessed(secret_word, letters_guessed):
         print("-------------")
-        print(f"You have {guesses_remaining} guesses left.")
+        if guesses_remaining == 1:
+            print(f"You have {guesses_remaining} guess left.")
+        else:
+            print(f"You have {guesses_remaining} guesses left.")
         print(f"Available letters: {avail_letters}")
 
         guess = input("Please guess a letter: ")
@@ -153,8 +156,7 @@ def hangman(secret_word):
                 guesses_remaining -= 1
                 if guesses_remaining == 0:
                     break
-            print(
-                f"Oops! That is not a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed)}")
+            print(f"Oops! That is not a valid letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed)}")
 
         else:
             # Check to see if user input has already been guessed
@@ -162,21 +164,22 @@ def hangman(secret_word):
             if guess in letters_guessed:
                 if warnings > 0:
                     warnings -= 1
-                    print(
-                        f"Oops! You've already guessed that letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed)}")
+                    print(f"Oops! You've already guessed that letter. You have {warnings} warnings left: {get_guessed_word(secret_word, letters_guessed)}")
                 else:
                     guesses_remaining -= 1
                     if guesses_remaining == 0:
                         break
-                    print(
-                        f"Oops! You've already guessed that letter. You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed)}")
+                    print(f"Oops! You've already guessed that letter. You have no warnings left so you lose one guess: {get_guessed_word(secret_word, letters_guessed)}")
 
             else:
                 # Check if guessed letter is in secret word.
                 letters_guessed.append(guess)
                 avail_letters = get_available_letters(letters_guessed)
                 if guess not in secret_word:
-                    guesses_remaining -= 1
+                    if guess in "a,e,i,o,u":
+                        guesses_remaining -= 2
+                    else:
+                        guesses_remaining -= 1
                     if guesses_remaining == 0:
                         break
                     print("Oops! That letter is not in my word.")
